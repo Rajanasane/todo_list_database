@@ -7,8 +7,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 
 const mongoose = require('mongoose')
-mongoose.connect("mongodb+srv://rajanasane000:<bTnbkUkX7L76kzsd>@cluster0.oirfx2r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
+mongoose.connect(process.env.MONGO_URI)
 
 const trySchema = new mongoose.Schema({
     name : String
