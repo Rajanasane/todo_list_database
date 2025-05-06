@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+
+        <!-- Add Task Form -->
+        <form action="/add" method="POST">
+            <input type="text" name="taskTitle" placeholder="Enter task title" required>
+            <select name="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <!-- Task List -->
+        <ul class="task-list">
+            <% tasks.forEach(function(task) { %>
+                <li class="task-item">
+                    <p class="<%= task.completed ? 'completed' : '' %>">
+                        <%= task.title %> - <%= task.priority %>
+                    </p>
+
+                    <!-- Edit Task -->
+                    <form action="/edit" method="POST" class="edit-form">
+                        <input type="hidden" name="taskId" value="<%= task._id %>">
+                        <input type="text" name="updatedTitle" value="<%= task.title %>" required>
+                        <select name="updatedPriority">
+                            <option value="low" <%= task.priority === 'low' ? 'selected' : '' %>>Low</option>
+                            <option value="medium" <%= task.priority === 'medium' ? 'selected' : '' %>>Medium</option>
+                            <option value="high" <%= task.priority === 'high' ? 'selected' : '' %>>High</option>
+                        </select>
+                        <button type="submit">Save</button>
+                    </form>
+
+                    <!-- Delete Task -->
+                        <form action="/delete" method="POST" class="delete-form">
+                            <input type="hidden" name="taskId" value="<%= task._id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

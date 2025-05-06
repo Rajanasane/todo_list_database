@@ -1,0 +1,117 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and background */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #f06, #ffba00); /* Gradient background */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main container */
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Adjust max width for a more responsive layout */
+    text-align: center;
+}
+
+/* Header */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form input, form select, form button {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Button styling */
+button {
+    background-color: #ffba00;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #f06;
+}
+
+/* Task list styling */
+ul.task-list {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+ul.task-list .task-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul.task-list .task-item p {
+    font-size: 1rem;
+    color: #333;
+    flex-grow: 1;
+}
+
+/* Edit form inside the task item */
+.edit-form input,
+.edit-form select {
+    margin-right: 5px;
+    width: 120px; /* Adjust width for better look */
+}
+
+/* Task item buttons */
+.delete-form button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-form button:hover {
+    background-color: #c0392b;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Completed tasks styling */
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
