@@ -1,55 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-    <link rel="stylesheet" href="/css/styles.css">
-
+  <meta charset="UTF-8">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Todo List</h1>
+  <div class="container">
+    <h1>Todo List</h1>
 
-        <!-- Add Task Form -->
-        <form action="/add" method="POST">
-            <input type="text" name="taskTitle" placeholder="Enter task title" required>
-            <select name="priority">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-            <button type="submit">Add Task</button>
-        </form>
+    <!-- Add Task Form -->
+    <form action="/add" method="POST">
+      <input type="text" name="taskTitle" placeholder="Enter task title" required>
+      <select name="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button type="submit">Add Task</button>
+    </form>
 
-        <!-- Task List -->
-        <ul class="task-list">
-            <% tasks.forEach(function(task) { %>
-                <li class="task-item">
-                    <p class="<%= task.completed ? 'completed' : '' %>">
-                        <%= task.title %> - <%= task.priority %>
-                    </p>
+    <!-- Task List -->
+    <ul class="task-list">
+      <% tasks.forEach(function(task) { %>
+        <li class="task-item">
+          <p class="<%= task.completed ? 'completed' : '' %>">
+            <%= task.title %> - <%= task.priority %>
+          </p>
+          <button onclick="editTask('<%= task._id %>', '<%= task.title %>', '<%= task.priority %>')">Edit</button>
+          <button onclick="deleteTask('<%= task._id %>')">Delete</button>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
 
-                    <!-- Edit Task -->
-                    <form action="/edit" method="POST" class="edit-form">
-                        <input type="hidden" name="taskId" value="<%= task._id %>">
-                        <input type="text" name="updatedTitle" value="<%= task.title %>" required>
-                        <select name="updatedPriority">
-                            <option value="low" <%= task.priority === 'low' ? 'selected' : '' %>>Low</option>
-                            <option value="medium" <%= task.priority === 'medium' ? 'selected' : '' %>>Medium</option>
-                            <option value="high" <%= task.priority === 'high' ? 'selected' : '' %>>High</option>
-                        </select>
-                        <button type="submit">Save</button>
-                    </form>
+  <script>
+    function editTask(id, currentTitle, currentPriority) {
+      const newTitle = prompt("Edit title:", currentTitle);
+      const newPriority = prompt("Edit priority (low, medium, high):", currentPriority);
 
-                    <!-- Delete Task -->
-                        <form action="/delete" method="POST" class="delete-form">
-                            <input type="hidden" name="taskId" value="<%= task._id %>">
-                            <button type="submit">Delete</button>
-                        </form>
-                </li>
-            <% }) %>
-        </ul>
-    </div>
+      if (newTitle && newPriority) {
+        fetch(`/edit/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ updatedTitle: newTitle, updatedPriority: newPriority })
+        })
+        .then(res => res.json())
+        .then(() => location.reload())
+        .catch(err => console.error(err));
+      }
+    }
+
+    function deleteTask(id) {
+      if (confirm("Delete this task?")) {
+        fetch(`/delete/${id}`, {
+          method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(() => location.reload())
+        .catch(err => console.error(err));
+      }
+    }
+  </script>
 </body>
 </html>
